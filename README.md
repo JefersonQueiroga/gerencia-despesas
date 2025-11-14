@@ -13,6 +13,7 @@ Aplicação Django simples para organizar categorias e despesas pessoais com int
 1. **Clonar ou baixar o projeto**
    ```powershell
    git clone https://github.com/JefersonQueiroga/gerencia-despesas.git
+   
    cd gerencia-despesas
    ```
    > Se você baixou o `.zip`, extraia e abra o PowerShell na pasta raiz.
