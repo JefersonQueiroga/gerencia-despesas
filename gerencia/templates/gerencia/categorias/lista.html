@@ -1,0 +1,42 @@
+{% extends "gerencia/base.html" %}
+
+{% block titulo %}Categorias{% endblock %}
+
+{% block conteudo %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="mb-0">Categorias</h2>
+        <small class="text-muted">Agrupe despesas por tipo</small>
+    </div>
+    <a href="{% url 'gerencia:criar_categoria' %}" class="btn btn-success">Nova categoria</a>
+</div>
+{% if categorias %}
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-striped mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for categoria in categorias %}
+                <tr>
+                    <td>{{ categoria.nome }}</td>
+                    <td>{{ categoria.descricao|default:"—" }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'gerencia:editar_categoria' categoria.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                        <a href="{% url 'gerencia:excluir_categoria' categoria.id %}" class="btn btn-sm btn-outline-danger ms-1">Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">Não há categorias cadastradas.</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "gerencia/base.html" %}
+
+{% block titulo %}Início{% endblock %}
+
+{% block conteudo %}
+<div class="row align-items-center mb-5">
+    <div class="col-lg-6">
+        <h1 class="display-5 fw-bold text-primary">Bem-vindo a Gerência de Despesas</h1>
+        <p class="lead text-muted">Organize suas finanças pessoais</p>
+        <div class="d-flex gap-3">
+            <a href="{% url 'gerencia:lista_despesas' %}" class="btn btn-primary btn-lg">Ver despesas</a>
+            <a href="{% url 'gerencia:lista_categorias' %}" class="btn btn-outline-primary btn-lg">Gerenciar categorias</a>
+        </div>
+    </div>
+    <div class="col-lg-5 offset-lg-1 mt-4 mt-lg-0">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 mb-3">Resumo rápido</h2>
+                <div class="row text-center">
+                    <div class="col-4">
+                        <p class="h3 mb-0">{{ total_categorias }}</p>
+                        <small class="text-muted">Categorias</small>
+                    </div>
+                    <div class="col-4">
+                        <p class="h3 mb-0">{{ total_despesas }}</p>
+                        <small class="text-muted">Despesas</small>
+                    </div>
+                    <div class="col-4">
+                        <p class="h3 mb-0">R$ {{ valor_total|floatformat:2 }}</p>
+                        <small class="text-muted">Total gasto</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">Planeje</h3>
+                <p class="card-text">Crie categorias personalizadas para identificar onde o dinheiro está sendo aplicado e mantenha tudo sob controle.</p>
+                <a href="{% url 'gerencia:criar_categoria' %}" class="btn btn-outline-primary">Nova categoria</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">Registre</h3>
+                <p class="card-text">Lance despesas com poucos cliques, informando valor, data e observações importantes para consultas futuras.</p>
+                <a href="{% url 'gerencia:criar_despesa' %}" class="btn btn-primary">Nova despesa</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
