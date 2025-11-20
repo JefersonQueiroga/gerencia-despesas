@@ -1,24 +1,48 @@
+from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from .forms import CategoriaForm, DespesaForm
+from .forms import CategoriaForm, DespesaForm, DespesaFiltroForm
 from .models import Categoria, Despesa
 
 
 def index(request):
     totais = Despesa.objects.aggregate(total=Sum("valor"))
+    ultimas_despesas = Despesa.objects.select_related("categoria").all()[:5]
     contexto = {
         "total_despesas": Despesa.objects.count(),
         "valor_total": totais["total"] or 0,
         "total_categorias": Categoria.objects.count(),
+        "ultimas_despesas": ultimas_despesas,
     }
     return render(request, "gerencia/index.html", contexto)
 
 
 def listar_despesas(request):
     despesas = Despesa.objects.select_related("categoria").all()
-    contexto = {"despesas": despesas}
+
+    form = DespesaFiltroForm(request.GET or None)
+
+    if form.is_valid():
+        titulo = form.cleaned_data.get("titulo")
+        data_inicio = form.cleaned_data.get("data_inicio")
+        data_fim = form.cleaned_data.get("data_fim")
+
+        if titulo:
+            despesas = despesas.filter(titulo__icontains=titulo)
+
+        if data_inicio:
+            despesas = despesas.filter(data__gte=data_inicio)
+
+        if data_fim:
+            despesas = despesas.filter(data__lte=data_fim)
+
+    paginator = Paginator(despesas, 10)
+    pagina = request.GET.get("page")
+    page_obj = paginator.get_page(pagina)
+
+    contexto = {"despesas": page_obj, "page_obj": page_obj, "form": form}
     return render(request, "gerencia/despesas/lista.html", contexto)
 
 

@@ -25,6 +25,7 @@ class Despesa(models.Model):
     valor = models.DecimalField("Valor", max_digits=10, decimal_places=2)
     data = models.DateField("Data da despesa")
     observacoes = models.TextField("Observações", blank=True)
+    ativo = models.BooleanField("Ativo", default=True)
     criado_em = models.DateTimeField("Criado em", auto_now_add=True)
     atualizado_em = models.DateTimeField("Atualizado em", auto_now=True)
 
