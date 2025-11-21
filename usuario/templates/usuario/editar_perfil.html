@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar Perfil{% endblock %}
+
+{% block conteudo %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Meu Perfil</h2>
+                <a href="{% url 'gerencia:index' %}" class="btn btn-sm btn-light">Voltar</a>
+            </div>
+            <div class="card-body">
+                {% if user.foto %}
+                <div class="text-center mb-4">
+                    <img src="{{ user.foto.url }}" alt="Foto de Perfil" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">Nome</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="text-danger small">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">Sobrenome</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="text-danger small">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="text-danger small">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.endereco.id_for_label }}" class="form-label">Endereço</label>
+                        {{ form.endereco }}
+                        {% if form.endereco.errors %}
+                            <div class="text-danger small">{{ form.endereco.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.cidade.id_for_label }}" class="form-label">Cidade</label>
+                        {{ form.cidade }}
+                        {% if form.cidade.errors %}
+                            <div class="text-danger small">{{ form.cidade.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.foto.id_for_label }}" class="form-label">Foto de Perfil</label>
+                        {{ form.foto }}
+                        {% if form.foto.errors %}
+                            <div class="text-danger small">{{ form.foto.errors }}</div>
+                        {% endif %}
+                        <div class="form-text">Envie uma nova foto para substituir a atual</div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

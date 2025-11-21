@@ -6,6 +6,7 @@ app_name = "gerencia"
 
 urlpatterns = [
     path("", views.index, name="index"),
+    # Despesas
     path("despesas/", views.listar_despesas, name="lista_despesas"),
     path("despesas/nova/", views.criar_despesa, name="criar_despesa"),
     path("despesas/<int:despesa_id>/editar/", views.editar_despesa, name="editar_despesa"),
@@ -14,6 +15,7 @@ urlpatterns = [
         views.excluir_despesa,
         name="excluir_despesa",
     ),
+    # Categorias
     path("categorias/", views.listar_categorias, name="lista_categorias"),
     path("categorias/nova/", views.criar_categoria, name="criar_categoria"),
     path(

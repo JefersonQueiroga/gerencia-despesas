@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
@@ -7,6 +8,7 @@ from .forms import CategoriaForm, DespesaForm, DespesaFiltroForm
 from .models import Categoria, Despesa
 
 
+@login_required
 def index(request):
     totais = Despesa.objects.aggregate(total=Sum("valor"))
     ultimas_despesas = Despesa.objects.select_related("categoria").all()[:5]
@@ -19,8 +21,9 @@ def index(request):
     return render(request, "gerencia/index.html", contexto)
 
 
+@login_required
 def listar_despesas(request):
-    despesas = Despesa.objects.select_related("categoria").all()
+    despesas = Despesa.objects.all()
 
     form = DespesaFiltroForm(request.GET or None)
 
@@ -46,6 +49,7 @@ def listar_despesas(request):
     return render(request, "gerencia/despesas/lista.html", contexto)
 
 
+@login_required
 def criar_despesa(request):
     if request.method == "POST":
         form = DespesaForm(request.POST)
@@ -57,6 +61,7 @@ def criar_despesa(request):
     return render(request, "gerencia/despesas/formulario.html", {"form": form})
 
 
+@login_required
 def editar_despesa(request, despesa_id):
     despesa = get_object_or_404(Despesa, pk=despesa_id)
     if request.method == "POST":
@@ -73,6 +78,7 @@ def editar_despesa(request, despesa_id):
     )
 
 
+@login_required
 def excluir_despesa(request, despesa_id):
     despesa = get_object_or_404(Despesa, pk=despesa_id)
     if request.method == "POST":
@@ -85,6 +91,7 @@ def excluir_despesa(request, despesa_id):
     )
 
 
+@login_required
 def listar_categorias(request):
     categorias = Categoria.objects.all()
     return render(
@@ -94,6 +101,7 @@ def listar_categorias(request):
     )
 
 
+@login_required
 def criar_categoria(request):
     if request.method == "POST":
         form = CategoriaForm(request.POST)
@@ -109,6 +117,7 @@ def criar_categoria(request):
     )
 
 
+@login_required
 def editar_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, pk=categoria_id)
     if request.method == "POST":
@@ -125,6 +134,7 @@ def editar_categoria(request, categoria_id):
     )
 
 
+@login_required
 def excluir_categoria(request, categoria_id):
     categoria = get_object_or_404(Categoria, pk=categoria_id)
     if request.method == "POST":
